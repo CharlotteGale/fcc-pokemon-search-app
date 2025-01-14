@@ -13,6 +13,7 @@ const defense = document.getElementById('defense');
 const specialAtk = document.getElementById('special-attack');
 const specialDef = document.getElementById('special-defense');
 const speed = document.getElementById('speed');
+const spriteContainer = document.getElementById('sprite-container');
 
 const handleSearch = () => {
     const userInput = searchInput.value.trim().toLowerCase();
@@ -35,6 +36,7 @@ const fetchData = async () => {
         if (!res.ok) {
             throw new Error("Pokémon not found");
         }
+        clearPreviousResults();
         const data = await res.json();
         showPokemonData(data);
     } catch (err) {
@@ -42,23 +44,44 @@ const fetchData = async () => {
     }
 };
 
+const clearPreviousResults = () => {
+    pokemonName.textContent = "";
+    pokemonId.textContent = "";
+    weight.textContent = "";
+    height.textContent = "";
+    types.innerHTML = ""; // Clear inner HTML
+    hp.textContent = "";
+    attack.textContent = "";
+    defense.textContent = "";
+    specialAtk.textContent = "";
+    specialDef.textContent = "";
+    speed.textContent = "";
+    spriteContainer.innerHTML = ""; // Clear sprite container
+};
+
 const showPokemonData = (data) => {
-    // Update your DOM elements with the Pokémon data
     pokemonName.textContent = data.name;
     pokemonId.textContent = data.id;
     weight.textContent = data.weight;
     height.textContent = data.height;
-    types.textContent = data.types.map(typeInfo => typeInfo.type.name).join(', ');
+    types.innerHTML = data.types.map(typeInfo => `<div>${typeInfo.type.name.toUpperCase()}</div>`).join(''); // Use innerHTML and template literals
     hp.textContent = data.stats.find(stat => stat.stat.name === 'hp').base_stat;
     attack.textContent = data.stats.find(stat => stat.stat.name === 'attack').base_stat;
     defense.textContent = data.stats.find(stat => stat.stat.name === 'defense').base_stat;
     specialAtk.textContent = data.stats.find(stat => stat.stat.name === 'special-attack').base_stat;
     specialDef.textContent = data.stats.find(stat => stat.stat.name === 'special-defense').base_stat;
     speed.textContent = data.stats.find(stat => stat.stat.name === 'speed').base_stat;
+
+    const sprite = document.createElement('img');
+    sprite.id = "sprite";
+    sprite.src = data.sprites.front_default;
+    const spriteDiv = document.createElement('div');
+    spriteDiv.appendChild(sprite);
+    spriteContainer.appendChild(spriteDiv);
 };
 
 const displayErrorMessage = (message) => {
-    const errorElement = document.getElementById('errorMessage');
+    const errorElement = document.getElementById('error-message');
     errorElement.textContent = message;
     errorElement.style.display = 'block';
 };
