@@ -49,3 +49,6 @@ main {
 #search-button {
     background-color: var(--pokemon-yellow);
 }
+.hidden {
+    visibility: hidden;
+}
