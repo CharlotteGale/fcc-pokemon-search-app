@@ -1,3 +1,4 @@
+// need to update to use external pokemon api
 const pokeProxyAPI = "https://pokeapi-proxy.freecodecamp.rocks/api/pokemon";
 
 const searchInput = document.getElementById('search-input');
@@ -49,14 +50,14 @@ const clearPreviousResults = () => {
     pokemonId.textContent = "";
     weight.textContent = "";
     height.textContent = "";
-    types.innerHTML = ""; // Clear inner HTML
+    types.innerHTML = ""; 
     hp.textContent = "";
     attack.textContent = "";
     defense.textContent = "";
     specialAtk.textContent = "";
     specialDef.textContent = "";
     speed.textContent = "";
-    spriteContainer.innerHTML = ""; // Clear sprite container
+    spriteContainer.innerHTML = ""; 
 };
 
 const showPokemonData = (data) => {
